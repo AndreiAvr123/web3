@@ -1,27 +1,38 @@
-import Content from 'components/Content/Content';
-import Header from 'components/Header/Header';
-import Total from 'components/Total/Total';
+import useLocalStorage from 'src/hooks/useLocalStorage';
+import Display from 'components/Display/Display';
+import Button from 'components/Button/Button';
 
-import './App.css';
+const STORAGE_COUNTER_KEY = "counter";
 
 const App = () => {
-  const course = 'Half Stack application development';
-  const part1 = 'Fundamentals of React';
-  const exercises1 = 10;
-  const part2 = 'Using props to pass data';
-  const exercises2 = 7;
-  const part3 = 'State of a component';
-  const exercises3 = 14;
+
+  const [counter, setCounter] = useLocalStorage(STORAGE_COUNTER_KEY, 0)
+
+  const changeCount = (delta) => {
+    setCounter(counter + delta)
+  }
 
   return (
     <div>
-      <Header {...{ course }} />
-      <Content
-        {...{ part1, exercises1, part2, exercises2, part3, exercises3 }}
+      <Display counter={counter} />
+      <Button
+        changeCount={changeCount}
+        delta={1}
+        text='plus'
       />
-      <Total {...{ exercises1, exercises2, exercises3 }} />
+      <Button
+        changeCount={changeCount}
+        delta={-counter}
+        text='zero'
+      />
+      <Button
+        changeCount={changeCount}
+        delta={-1}
+        text='minus'
+      />
     </div>
-  );
-};
+  )
+
+}
 
 export default App;
